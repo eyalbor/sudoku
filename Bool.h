@@ -2,7 +2,7 @@
  * bool.h
  *
  *  Created on: Dec 11, 2018
- *      Author: eyal
+ *      Author: eyal & nadin
  */
 
 #ifndef BOOL_H_
