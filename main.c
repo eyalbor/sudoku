@@ -13,6 +13,8 @@ int main ( int argc, char **argv ){
 	int row = 3;
 	int col = 3;
 
+	char* s = "nadin push";
+
 	fixCell = mainAux_getNumberOfFixCells();
 	game_create(row,col,fixCell,seed);
 	while(game_isGameFinish()==false) {
