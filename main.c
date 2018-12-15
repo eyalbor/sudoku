@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "main_aux.h"
 
-
+/* nadine test2*/
 int main ( int argc, char **argv ){
 
 	int fixCell = 0;
@@ -12,6 +12,8 @@ int main ( int argc, char **argv ){
 	char* command;
 	int row = 3;
 	int col = 3;
+
+	char* s = "nadin push";
 
 	seed = mainAux_getSeed(argc,argv);
 	fixCell = mainAux_getNumberOfFixCells();
