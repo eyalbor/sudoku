@@ -11,6 +11,7 @@ void solver_randomize(){
 void solver_randomizeBacktracking(){
 
 }
+
 /* added by nadine- checks if board is full
  *the function iterates over the matrix and check:
  *if not all cells are filled- it means the game is unfinished.

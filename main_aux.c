@@ -2,21 +2,45 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _DEBUG
+	#define DO_ASSERT(x) assert(x)
+	#define PRINT_MSG(msg)	printf("%s(%d): %s \n", __FILE__,__LINE__,__FUNCTION__,__TIME__,msg)
+#else
+	#define DO_ASSERT(x) ()
+	#define PRINT_MSG(msg)
+#endif
+
+int mainAux_getSeed(int argc, char** argv){
+	int seed = 0;
+	char* seedStr = NULL;
+
+	if(argc == 2){
+		seedStr = argv[1];
+		PRINT_MSG(seedStr);
+		seed = atoi(seedStr);
+	}
+	return seed;
+}
+
+/**
+ * return number between 0-80. if get EOF return -1
+ */
 int mainAux_getNumberOfFixCells(){
-	int fixed_cells;
+	int fix = 0, scanRet;
+
 	printf("Please enter the number of cells to fill [0-80]:\n");
-	if (scanf("%d", &fixed_cells) != 1)
-	{
-		printf("Error: scan has failed. Exiting\n");
-		return -1;
-	}
-	while ((fixed_cells >80 || fixed_cells < 0))
-	{
+	while(1){
+		scanRet = scanf("%d",&fix);
+		if(scanRet==EOF){
+			fix=-1;
+			break;
+		}
+		if(fix>=0 && fix<=80){
+			break;
+		}
 		printf("Error: invalid number of cells to fill (should be between 0 and 80)\n");
-		printf("Please enter the number of cells to fill [0-80]:\n");
-		scanf("%d", &fixed_cells);
 	}
-	return fixed_cells;
+	return fix;
 }
 
 char* mainAux_readCommand(){
@@ -36,34 +60,32 @@ void rowSeparator() {
 	printf("\n");
 }
 
-/*nadin: print the current position of the board */
-
-void printBoard( int **matrixPlay, int **matrixfixed){
+void printBoard(int **matrixPlay, int **matrixfixed){
 	int i,j;
-	for(i=0; i<9; i++)
-	{
-		/*every 3 rows we will print a line*/
-		if(i % 3 == 0)
+		for(i=0; i<9; i++)
 		{
-			rowSeparator();
-		}
-		for(j=0;j<9;j++)
-		{
-			/*every 3 col we will print a line*/
-			if(j % 3 == 0)
+			/*every 3 rows we will print a line*/
+			if(i % 3 == 0)
 			{
-				printf("| ");
+				rowSeparator();
 			}
-			if(matrixfixed[i][j]!=0)
+			for(j=0;j<9;j++)
 			{
-				printf(".%d ",matrixPlay[i][j]);
-			}else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
-			{
-				printf(" %d ",matrixPlay[i][j]);
-			}else
-			{
-				printf("   ");
-			}
-		}printf("|\n");
-	}rowSeparator();
+				/*every 3 col we will print a line*/
+				if(j % 3 == 0)
+				{
+					printf("| ");
+				}
+				if(matrixfixed[i][j]!=0)
+				{
+					printf(".%d ",matrixPlay[i][j]);
+				}else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
+				{
+					printf(" %d ",matrixPlay[i][j]);
+				}else
+				{
+					printf("   ");
+				}
+			}printf("|\n");
+		}rowSeparator();
 }
