@@ -9,10 +9,27 @@
 #define ROWS 9
 #define COLS 9
 
-int matrixSolve[ROWS][COLS];
-int matrixPlay[ROWS][COLS];
+/*int matrixSolve[ROWS][COLS];
+int matrixPlay[ROWS][COLS];*/
 int rows,cols;
+int **matrixSolve, **matrixPlay, **matrixfixed;
 
+
+/*nadin- create the matrix  */
+int **createMatrix(int rows, int col) {
+	int **matrix, i;
+	matrix = calloc(rows, sizeof(int *));
+	if (matrix == NULL) {
+		return NULL;
+	}
+	for (i = 0; i < 9; i++) {
+		matrix[i] = calloc(col, sizeof(int));
+		if (matrix[i] == NULL) {
+			return NULL;
+		}
+	}
+	return matrix;
+}
 void game_randomlyPickFixCells(){
 
 }
@@ -24,13 +41,17 @@ void game_randomlyPickFixCells(){
  */
 void game_create(int rows, int cols ,int fixCell, int seed){
 	//matrixSolve = (int *)calloc(rows * cols , sizeof(Cell));
+	matrixSolve = createMatrix(rows,col);
+	matrixPlay=createMatrix(rows,col);
+	matrixfixed= createMatrix(rows, col);
+	printBoard(matrixPlay,  matrixfixed);
 	solver_randomizeBacktracking(matrixSolve,rows,cols);
 	game_randomlyPickFixCells();
 }
 
-bool game_isGameFinish(){
+/*bool game_isGameFinish(){
 
-}
+}*/
 
 ADTErr game_playTurn(Command command){
 	switch(command.func){
