@@ -77,40 +77,87 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 
 }
 
-//bool game_isGameFinish(){
-//
-//}
+void game_destroyGame(){
 
-ADTErr game_playTurn(Command command){
-	switch(command.func){
-		case SET:
+}
+
+
+/*
+ * added by nadine
+ * checks if board is full
+ * the function iterates over the matrix and check:
+ * if not all cells are filled- it means the game is unfinished.
+ * if one cell contains an illegal value game is not over.
+ */
+bool game_isGameFinish(){
+	int i,j,value;
+	for(i=0; i<rows; i++)
+	{
+		for(j=0; j<cols;j++)
 		{
-			game_set();
-		} break;
-		case HINT:
-		{
-			game_hint();
-		} break;
-		case VALIDATE:
-		{
-			game_validate();
-		} break;
+			value=matrixPlay[i][j];
+			if(value==0)
+			{
+				return false;
+			}
+			if(solver_is_legalvalue(matrixPlay, i, j, value)==0)
+			{
+				return false;
+			}
+		}
+	}
+	return true;
+}
+
+/**
+ * check if the cell point (x,y) is fix
+ */
+bool static game_isCellFix(int x, int y){
+	return true;
+}
+
+bool static game_setValue(int x, int y, int z){
+	return true;
+}
+
+int static game_getValue(int z, int y){
+	return 0;
+}
+
+/**
+ * Assume x, y, z is valid
+ */
+ADTErr static game_set(Command* command){
+	if(game_isCellFix(command->x,command->y))
+		return CELL_FIX;
+	if(game_setValue(command->x,command->y, command->z)){
+		return VALUE_INVALID;
 	}
 	return ERR_OK;
 }
 
-ADTErr game_set(){
-	//game_fix?
-	//game_isValid() contain the neighbors
+ADTErr  game_hint(Command* command){
+	int z = game_getValue(command->x,command->y);
+	command->z = z;
+	return HINT_ERR;
+}
+
+ADTErr static game_validate(){
 	return ERR_OK;
 }
 
-ADTErr game_hint(){
-	return ERR_OK;
+ADTErr game_playTurn(Command* command){
+	ADTErr ret = ERR_OK;
+	FUNC func = command->func;
+	if(func==SET){
+		ret = game_set(command);
+	}
+	else if(func==HINT){
+		ret = game_hint(command);
+	}
+	else if(func==VALIDATE){
+		ret = game_validate();
+	}
+	return ret;
 }
-
-ADTErr game_validate(){
-	return ERR_OK;
-}
-	//err = solver_solveBoard(mat, size, matNew  )
 

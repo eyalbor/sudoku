@@ -13,18 +13,19 @@ typedef enum
     ERR_OVERFLOW,
     ERR_WRONG_INDEX,
 
-    /* Vector Errors */
-
-    /* Stack  Errors */
-    ERR_STACK_BLABLABLA = 15
-    /* LinkedList  Errors */
-
-
-    /* Bit Vector*/
-
-
+    /* String Errors */
+	CELL_FIX,
+	VALUE_INVALID,
+	HINT_ERR,
+	PUZZLE_SOLVED,
+	VALIDATION_PASSED
 } ADTErr;
 
+/**
+ * HandleErr
+ * print the error
+ * input: ADTErr error
+ */
 void HandleErr(ADTErr errNum);
 
 #endif /*ADTERROR_H_*/

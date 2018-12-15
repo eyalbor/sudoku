@@ -1,4 +1,5 @@
 #include "Bool.h"
+#include "ADT_Error.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -43,12 +44,13 @@ int mainAux_getNumberOfFixCells(){
 	return fix;
 }
 
-char* mainAux_readCommand(){
-	//scanf
-	//strtok
-	//Command = parser_checkValidCommand
-	//game_playTurn(command)
-	return NULL;
+bool mainAux_readCommand(char* command){
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF) { }
+
+	if (NULL == fgets(command,100,stdin))
+		return false;
+	return true;
 }
 
 /* nadin*/
@@ -88,4 +90,20 @@ void printBoard(int **matrixPlay, int **matrixfixed){
 				}
 			}printf("|\n");
 		}rowSeparator();
+}
+
+void mainAux_printBoard(){
+
+}
+
+void mainAux_printExit(){
+	printf("Exiting...\n");
+}
+
+void mainAux_printError(ADTErr err){
+	HandleErr(err);
+}
+
+void main_Aux_printHint(int z){
+	printf("Hint: set cell to %d\n",z);
 }

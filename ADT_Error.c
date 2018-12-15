@@ -16,22 +16,11 @@
 		"ERR_UNDERFLOW",
 		"ERR_OVERFLOW",
 		"ERR_WRONG_INDEX",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-		" ",
-
-		/* Vector Errors */
-
-		/* Stack  Errors */
-		"ERR_STACK_BLABLABLA",
-		/* LinkedList  Errors */
-
-
-		/* Bit Vector*/
+		/* String Errors */
+		"cell is fixed",
+		"value is invalid",
+		"HINT"
 	};
-	printf("ErrNum=%d, ErrDescription=%s \n",errNum, ad[errNum]);
+	printf("Error:%s\n", ad[errNum]);
 }
 
