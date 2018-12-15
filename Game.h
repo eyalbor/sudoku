@@ -13,5 +13,6 @@ bool 	game_isGameFinish();
 ADTErr 	game_set();
 ADTErr 	game_hint();
 ADTErr 	game_validate();
+void 	printMatrix(void* matrix, int row, int col);
 
 #endif

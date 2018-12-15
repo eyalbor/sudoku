@@ -15,11 +15,16 @@ int main ( int argc, char **argv ){
 
 	char* s = "nadin push";
 
+	seed = mainAux_getSeed(argc,argv);
 	fixCell = mainAux_getNumberOfFixCells();
-	game_create(row,col,fixCell,seed);
-	while(game_isGameFinish()==false) {
-		command = mainAux_readCommand();
+	if(fixCell==-1){
+		printf("Exiting...\n");
+		return 0;
 	}
+	game_create(row,col,fixCell,seed);
+//	while(game_isGameFinish()==false) {
+//		command = mainAux_readCommand();
+//	}
 
 	return 0;
 }
