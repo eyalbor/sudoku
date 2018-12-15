@@ -27,19 +27,19 @@ void game_randomlyPickFixCells(){
 
 }
 
-void printMatrix(void* ptr, int row, int col){
-	int r, c;
-	int** matrix = (int**)ptr;
-
-	printf("----------------------------------\n");
-	for(r=1; r<10; ++r)
-	{
-		for(c=1; c<10; ++c)
-			printf("|%d", matrixSolver[r-1][r-1]);
-		printf("|\n");
-		if (r%3 == 0) printf("----------------------------------\n");
-	}
-}
+//void printMatrix(void* ptr, int row, int col){
+//	int r, c;
+//	int** matrix = (int**)ptr;
+//
+//	printf("----------------------------------\n");
+//	for(r=1; r<10; ++r)
+//	{
+//		for(c=1; c<10; ++c)
+//			printf("|%d", matrixSolver[r-1][r-1]);
+//		printf("|\n");
+//		if (r%3 == 0) printf("----------------------------------\n");
+//	}
+//}
 
 /*nadin- create the matrix  */
 int **createMatrix(int rows, int col) {
@@ -57,10 +57,6 @@ int **createMatrix(int rows, int col) {
 	return matrix;
 }
 
-void game_randomlyPickFixCells(){
-
-}
-
 /**
  * create empty board
  * use randomized backtracking to get random solve board
@@ -68,7 +64,7 @@ void game_randomlyPickFixCells(){
  */
 void game_create(int rows, int cols ,int fixCell, int seed){
 	//matrixSolver = (int *)calloc(rows * cols , sizeof(Cell));
-	printMatrix(matrixSolver,cols,cols);
+	/*printMatrix(matrixSolver,cols,cols);*/
 	//solver_randomizeBacktracking(matrixSolver,rows,cols);
 	//game_randomlyPickFixCells();
 
@@ -81,9 +77,9 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 
 }
 
-bool game_isGameFinish(){
-
-}
+//bool game_isGameFinish(){
+//
+//}
 
 ADTErr game_playTurn(Command command){
 	switch(command.func){
