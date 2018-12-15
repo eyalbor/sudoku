@@ -4,7 +4,7 @@
 #include "Game.h"
 #include "main_aux.h"
 
-
+/* nadine test2*/
 int main ( int argc, char **argv ){
 
 	int fixCell = 0;
