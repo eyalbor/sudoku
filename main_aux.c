@@ -49,13 +49,16 @@ bool mainAux_readCommand(char* command){
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF) { }
 
-	if (NULL == fgets(command,100,stdin))
+	if (NULL == fgets(command,100,stdin)){
+		while ((c = getchar()) != '\n' && c != EOF) { }
 		return false;
+	}
+	while ((c = getchar()) != '\n' && c != EOF) { }
 	return true;
 }
 
 /* nadin*/
-void rowSeparator() {
+void static rowSeparator() {
 	int i;
 	for (i = 0; i < 34; i++) {
 		printf("-");
@@ -63,38 +66,41 @@ void rowSeparator() {
 	printf("\n");
 }
 
-void printBoard(int **matrixPlay, int **matrixfixed){
+void printBoard(int** matrixPlay, int** matrixfixed){
 	int i,j;
-		for(i=0; i<9; i++)
+	for(i=0; i<9; i++)
+	{
+		/*every 3 rows we will print a line*/
+		if(i % 3 == 0)
 		{
-			/*every 3 rows we will print a line*/
-			if(i % 3 == 0)
+			rowSeparator();
+		}
+		for(j=0;j<9;j++)
+		{
+			/*every 3 col we will print a line*/
+			if(j % 3 == 0)
 			{
-				rowSeparator();
+				printf("| ");
 			}
-			for(j=0;j<9;j++)
+			if(matrixfixed[i][j]!=0)
 			{
-				/*every 3 col we will print a line*/
-				if(j % 3 == 0)
-				{
-					printf("| ");
-				}
-				if(matrixfixed[i][j]!=0)
-				{
-					printf(".%d ",matrixPlay[i][j]);
-				}else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
-				{
-					printf(" %d ",matrixPlay[i][j]);
-				}else
-				{
-					printf("   ");
-				}
-			}printf("|\n");
-		}rowSeparator();
+				printf(".%d ",matrixPlay[i][j]);
+			}
+			else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
+			{
+				printf(" %d ",matrixPlay[i][j]);
+			}
+			else
+			{
+				printf("   ");
+			}
+		}printf("|\n");
+	}
+	rowSeparator();
 }
 
 void mainAux_printBoard(){
-	printBoard(game_getMatrixPlay(),game_getMatrixFix());
+	game_printBoard();
 }
 
 void mainAux_printExit(){

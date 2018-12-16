@@ -1,9 +1,10 @@
 #include "Bool.h"
 #include "ADT_Error.h"
 #include "Parcer.h"
-#include "Game.h"
 #include "main_aux.h"
+#include "Game.h"
 
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 
@@ -30,10 +31,9 @@ int main ( int argc, char **argv ){
 		game_create(row,col,fixCell,seed);
 
 		while(game_isGameFinish(row,col)==false) {
-			mainAux_printBoard();
-			//TODO delete
-			printf("print command\n");
-			//
+			if (err!=HINT_ERR){
+				mainAux_printBoard();
+			}
 			if(mainAux_readCommand(commandStr) == true){
 				parser_parseCommand(commandStr, &command);
 				if(command.func!=NONE){

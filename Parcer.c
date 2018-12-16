@@ -36,11 +36,11 @@ void parser_parseCommand(char* str, Command* retCommand){
 			(*retCommand).x = atoi(tokens);
 			tokens = strtok(NULL," ");
 			(*retCommand).y = atoi(tokens);
-		} else if(strcmp(tokens,"validate")==0){
+		} else if(strcmp(tokens,"validate\n")==0){
 			(*retCommand).func = VALIDATE;
-		} else if(strcmp(tokens,"restart")==0){
+		} else if(strcmp(tokens,"restart\n")==0){
 			(*retCommand).func = RESTART;
-		} else if(strcmp(tokens,"exit")==0){
+		} else if(strcmp(tokens,"exit\n")==0){
 			(*retCommand).func = EXIT;
 		}
 	}else{

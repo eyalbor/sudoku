@@ -44,4 +44,6 @@ void mainAux_printExit();
  */
 void main_Aux_printHint(int z);
 
+void mainAux_printError(ADTErr err);
+
 #endif

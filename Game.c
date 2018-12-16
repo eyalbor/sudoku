@@ -1,30 +1,18 @@
 #include "Bool.h"
-#include "ADT_Error.h"
 #include "Parcer.h"
-#include "Game.h"
+#include "ADT_Error.h"
 #include "Solver.h"
-
+#include "Game.h"
 #include <stdlib.h>
 
 #define ROWS 9
 #define COLS 9
 
-int **matrixSolve, **matrixPlay, **matrixfixed,**matrix_try;
-//int matrixSolver[ROWS][COLS];
-//int matrixPlay[ROWS][COLS];
+int **matrixSolve, **matrixPlay, **matrixfixed;
 int rows,cols;
-//int puzzle[9][9]={{0, 0, 0, 0, 0, 0, 0, 9, 0},
-//                     {1, 9, 0, 4, 7, 0, 6, 0, 8},
-//                     {0, 5, 2, 8, 1, 9, 4, 0, 7},
-//                     {2, 0, 0, 0, 4, 8, 0, 0, 0},
-//                     {0, 0, 9, 0, 0, 0, 5, 0, 0},
-//                     {0, 0, 0, 7, 5, 0, 0, 0, 9},
-//                     {9, 0, 7, 3, 6, 4, 1, 8, 0},
-//                     {5, 0, 6, 0, 8, 1, 0, 7, 4},
-//                     {0, 8, 0, 0, 0, 0, 0, 0, 0}};
 
 void game_randomlyPickFixCells(int fixCells){
-	int i, x, y, value;
+	int i, x, y;
 	for(i=0;i<fixCells;++i){
 		while(1){
 			x = rand()%9;
@@ -38,26 +26,9 @@ void game_randomlyPickFixCells(int fixCells){
 	}
 }
 
-int** 	game_getMatrixPlay(){
-	return matrixPlay;
+void game_printBoard(){
+	printBoard(matrixPlay,  matrixfixed);
 }
-int** 	game_getMatrixFix(){
-	return matrixfixed;
-}
-
-//void printMatrix(void* ptr, int row, int col){
-//	int r, c;
-//	int** matrix = (int**)ptr;
-//
-//	printf("----------------------------------\n");
-//	for(r=1; r<10; ++r)
-//	{
-//		for(c=1; c<10; ++c)
-//			printf("|%d", matrixSolver[r-1][r-1]);
-//		printf("|\n");
-//		if (r%3 == 0) printf("----------------------------------\n");
-//	}
-//}
 
 /*nadin- create the matrix  */
 int **game_createMatrix(int rows, int col) {
