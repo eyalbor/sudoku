@@ -5,6 +5,7 @@
 #include "main_aux.h"
 
 #include <stdio.h>
+#include <time.h>
 
 int main ( int argc, char **argv ){
 
@@ -17,6 +18,7 @@ int main ( int argc, char **argv ){
 	Command command;
 
 	seed = mainAux_getSeed(argc,argv);
+	srand(seed);
 
 	GAME:{
 		fixCell = mainAux_getNumberOfFixCells();

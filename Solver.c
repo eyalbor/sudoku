@@ -1,16 +1,127 @@
 #include "Bool.h"
 #include "Solver.h"
 
+#include <stdio.h>
+#include <time.h>
+
+bool valid_array_number[9][9][9] = {false};
+
 void solver_solveBoard(int** mat, int size, int** matNew){
 
 }
 
-void solver_randomize(){
 
+int static checkIfICanPickValue(bool* valid_array_number, int size){
+	int i;
+	int count=0;
+
+	for(i=0;i<size;i++){
+		//true says that i can choose the i value
+		if(valid_array_number[i]==true){
+			count++;
+		}
+	}
+	return count;
 }
 
-void solver_randomizeBacktracking(){
+int solver_createlegalvalue(int**matrixSolve,int row, int col){
+	int number,count;
+	for (number = 1; number< 10; number++)
+	{
+		if(solver_is_legalValue(matrixSolve,row,col,number))
+		{
+			valid_array_number[row][col][number-1] = true;
+			count++;
+		}
+	}
+}
 
+int choose_Valuefrom3Dmatrix(int count,int x, int y){
+	int randNum,i;
+
+	randNum = (rand()%count)+1;
+	for(i=0;i<9;i++){
+		if(valid_array_number[x][y][i]==true)
+		{
+			randNum--;
+			if(randNum==0)
+			{
+				return i;
+			}
+		}
+	}
+	return -1;
+}
+
+void swap(int* randArr, int index1, int index2){
+	int temp = randArr[index1];
+	randArr[index1] = randArr[index2];
+	randArr[index2] = temp;
+}
+
+
+void randomizeArray(int* randArr,int size){
+	int i, index1, index2;
+	for(i=0;i<size;i++){
+		randArr[i]=i+1;
+	}
+	for(i=0;i<100;i++){
+		index1 = rand()%9;
+		index2 = rand()%9;
+		swap(randArr,index1, index2);
+	}
+//	for(i=0;i<size;i++){
+//		printf(" %d ",randArr[i]);
+//	}
+//	printf("\n");
+}
+
+
+bool solver_randomizeBacktracking(int** matrixSolve){
+	int randArr[9];
+	int row, col, number;
+	randomizeArray(randArr, 9);
+
+	for (row = 0; row < 9; row++)
+	{
+		for (col = 0; col < 9; col++)
+		{
+			/* if cell is empty check if it can be filled*/
+			if (matrixSolve[row][col] == 0)
+			{
+				for (number = 0; number< 9; number++)
+				{
+					if (solver_is_legalValue(matrixSolve, row, col, randArr[number]) == 1)
+					{
+						/* if the cell is empty and the value is legal fill the cell  */
+						matrixSolve[row][col] = randArr[number];
+						/* recursive call. check the next cell. the previous cells are not empty anymore
+						 * we put a value with the previous calls */
+						if (solver_randomizeBacktracking(matrixSolve) == 1)
+						{
+							return true;
+						}
+						else
+						/* if the call return 0 delete the element and continue to check the next number*/
+						{
+							matrixSolve[row][col] = 0;
+						}
+					}
+				}
+				/*  if no number is legal then delete the cell */
+				if (number == 9)
+				{
+					matrixSolve[row][col] = 0;
+					return false;
+				}
+			}
+			else if ((col == 8) && (row == 8) && (solver_is_legalValue(matrixSolve, 8, 8,matrixSolve[8][8])==1))
+			{
+				return true;
+			}
+		}
+	}
+	return false;
 }
 
 
@@ -19,7 +130,7 @@ void solver_randomizeBacktracking(){
  * this function checks if the value entered in a specific cell is a valid one. if there is the same value in the same row
  * the function returns 0 otherwise it is a legal value and the function returns 1.
  */
-bool check_row(int **matrixPlay, int row, int col, int checked_value){
+bool static check_row(int **matrixPlay, int row, int col, int checked_value){
 
 	int i;
 	for (i = 0; i< 9; i++)
@@ -31,8 +142,8 @@ bool check_row(int **matrixPlay, int row, int col, int checked_value){
 				return false;
 			}
 		}
-		return true;
 	}
+	return true;
 }
 /* added by nadin
  *
@@ -41,19 +152,18 @@ bool check_row(int **matrixPlay, int row, int col, int checked_value){
  *
  */
 bool check_col(int **matrixPlay, int row, int col, int checked_value){
-
-int i;
-for (i = 0; i< 9; i++)
-{
-	if (i != row)
+	int i;
+	for (i = 0; i< 9; i++)
 	{
-		if (matrixPlay[i][col] == checked_value)
+		if (i != row)
 		{
-			return false;
+			if (matrixPlay[i][col] == checked_value)
+			{
+				return false;
+			}
 		}
 	}
 	return true;
-}
 }
 
 /*
@@ -136,11 +246,12 @@ int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 								memcpy(matrixSolve, matrixPlay, 81);
 							}
 							return 1;
-						} else
-							/* if the call return 0 delete the element and continue to check the next number*/
-							{
-								matrixPlay[row][col] = 0;
-							}
+						}
+						else
+						/* if the call return 0 delete the element and continue to check the next number*/
+						{
+							matrixPlay[row][col] = 0;
+						}
 					}
 				}
 				/*  if no number is legal then delete the cell */
@@ -155,9 +266,8 @@ int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 				memcpy(matrixSolve, matrixPlay, 82);
 				return 1;
 			}
-
 		}
 	}
 
-		return 0;
+	return 0;
 }

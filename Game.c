@@ -9,22 +9,40 @@
 #define ROWS 9
 #define COLS 9
 
-int **matrixSolve, **matrixPlay, **matrixfixed;
+int **matrixSolve, **matrixPlay, **matrixfixed,**matrix_try;
 //int matrixSolver[ROWS][COLS];
 //int matrixPlay[ROWS][COLS];
 int rows,cols;
-int puzzle[9][9]={{0, 0, 0, 0, 0, 0, 0, 9, 0},
-                     {1, 9, 0, 4, 7, 0, 6, 0, 8},
-                     {0, 5, 2, 8, 1, 9, 4, 0, 7},
-                     {2, 0, 0, 0, 4, 8, 0, 0, 0},
-                     {0, 0, 9, 0, 0, 0, 5, 0, 0},
-                     {0, 0, 0, 7, 5, 0, 0, 0, 9},
-                     {9, 0, 7, 3, 6, 4, 1, 8, 0},
-                     {5, 0, 6, 0, 8, 1, 0, 7, 4},
-                     {0, 8, 0, 0, 0, 0, 0, 0, 0}};
+//int puzzle[9][9]={{0, 0, 0, 0, 0, 0, 0, 9, 0},
+//                     {1, 9, 0, 4, 7, 0, 6, 0, 8},
+//                     {0, 5, 2, 8, 1, 9, 4, 0, 7},
+//                     {2, 0, 0, 0, 4, 8, 0, 0, 0},
+//                     {0, 0, 9, 0, 0, 0, 5, 0, 0},
+//                     {0, 0, 0, 7, 5, 0, 0, 0, 9},
+//                     {9, 0, 7, 3, 6, 4, 1, 8, 0},
+//                     {5, 0, 6, 0, 8, 1, 0, 7, 4},
+//                     {0, 8, 0, 0, 0, 0, 0, 0, 0}};
 
-void game_randomlyPickFixCells(){
+void game_randomlyPickFixCells(int fixCells){
+	int i, x, y, value;
+	for(i=0;i<fixCells;++i){
+		while(1){
+			x = rand()%9;
+			y = rand()%9;
+			if(matrixPlay[x][y]==0){
+				matrixPlay[x][y]=matrixSolve[x][y];
+				matrixfixed[x][y]=matrixSolve[x][y];
+				break;
+			}
+		}
+	}
+}
 
+int** 	game_getMatrixPlay(){
+	return matrixPlay;
+}
+int** 	game_getMatrixFix(){
+	return matrixfixed;
 }
 
 //void printMatrix(void* ptr, int row, int col){
@@ -66,19 +84,28 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 	//matrixSolver = (int *)calloc(rows * cols , sizeof(Cell));
 	/*printMatrix(matrixSolver,cols,cols);*/
 	//solver_randomizeBacktracking(matrixSolver,rows,cols);
-	//game_randomlyPickFixCells();
 
 	matrixSolve = game_createMatrix(rows,cols);
-	matrixPlay=game_createMatrix(rows,cols);
-	matrixfixed= game_createMatrix(rows, cols);
-	printBoard(matrixPlay,  matrixfixed);
-	solver_randomizeBacktracking(matrixSolve,rows,cols);
-	game_randomlyPickFixCells();
-
+	matrixPlay = game_createMatrix(rows,cols);
+	matrixfixed = game_createMatrix(rows, cols);
+	solver_randomizeBacktracking(matrixSolve);
+	//solver_determenistic_algo( matrixPlay,matrixSolve);
+	//printBoard(matrixPlay,  matrixSolve);
+	//printBoard(matrixSolve,  matrix_try);
+	game_randomlyPickFixCells(fixCell);
+	//printBoard(matrixPlay,  matrixfixed);
 }
 
 void game_destroyGame(){
-
+	int i;
+	for (i=0;i<9;i++){
+		free(matrixSolve[i]);
+		free(matrixPlay[i]);
+		free(matrixfixed[i]);
+	}
+	free(matrixSolve);
+	free(matrixPlay);
+	free(matrixfixed);
 }
 
 

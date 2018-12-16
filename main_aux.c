@@ -1,5 +1,6 @@
 #include "Bool.h"
 #include "ADT_Error.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -93,7 +94,7 @@ void printBoard(int **matrixPlay, int **matrixfixed){
 }
 
 void mainAux_printBoard(){
-
+	printBoard(game_getMatrixPlay(),game_getMatrixFix());
 }
 
 void mainAux_printExit(){
