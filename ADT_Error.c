@@ -19,7 +19,11 @@
 		/* String Errors */
 		"cell is fixed",
 		"value is invalid",
-		"HINT"
+		"HINT",
+		"PUZZLE_SOLVED",
+		"Validation passed: board is solvable",
+		"Validation failed: board is unsolvable"
+
 	};
 	printf("Error:%s\n", ad[errNum]);
 }

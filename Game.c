@@ -89,7 +89,7 @@ void game_destroyGame(){
  * if not all cells are filled- it means the game is unfinished.
  * if one cell contains an illegal value game is not over.
  */
-bool game_isGameFinish(){
+bool game_isGameFinish(int rows, int cols){
 	int i,j,value;
 	for(i=0; i<rows; i++)
 	{
@@ -100,7 +100,7 @@ bool game_isGameFinish(){
 			{
 				return false;
 			}
-			if(solver_is_legalvalue(matrixPlay, i, j, value)==0)
+			if(solver_is_legalValue(matrixPlay, i, j, value)==false)
 			{
 				return false;
 			}
@@ -113,15 +113,20 @@ bool game_isGameFinish(){
  * check if the cell point (x,y) is fix
  */
 bool static game_isCellFix(int x, int y){
-	return true;
+	return matrixfixed[x][y]!=0?true:false;
 }
 
 bool static game_setValue(int x, int y, int z){
+	if(solver_is_legalValue(matrixPlay,x,y,z)==true){
+		matrixPlay[x][y]=z;
+	}else{
+		return false;
+	}
 	return true;
 }
 
-int static game_getValue(int z, int y){
-	return 0;
+int static game_getValue(int x, int y){
+	return matrixSolve[x][y];
 }
 
 /**
@@ -130,7 +135,7 @@ int static game_getValue(int z, int y){
 ADTErr static game_set(Command* command){
 	if(game_isCellFix(command->x,command->y))
 		return CELL_FIX;
-	if(game_setValue(command->x,command->y, command->z)){
+	if(!game_setValue(command->x,command->y, command->z)){
 		return VALUE_INVALID;
 	}
 	return ERR_OK;
@@ -143,6 +148,10 @@ ADTErr  game_hint(Command* command){
 }
 
 ADTErr static game_validate(){
+	if(solver_determenistic_algo(matrixPlay,matrixSolve)==true){
+		//success
+		return VALIDATION_PASSED;
+	}
 	return ERR_OK;
 }
 

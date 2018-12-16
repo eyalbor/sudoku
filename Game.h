@@ -10,6 +10,6 @@ void 	game_create(int row, int col,int fixCell, int seed);
 void 	game_destroyGame();
 ADTErr 	game_playTurn(Command* command);
 void 	game_randomlyPickFixCells();
-bool 	game_isGameFinish();
+bool 	game_isGameFinish(int rows, int cols);
 
 #endif

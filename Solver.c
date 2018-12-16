@@ -40,7 +40,7 @@ bool check_row(int **matrixPlay, int row, int col, int checked_value){
  * the function returns 0 otherwise it is a legal value and the function returns 1.
  *
  */
-int check_col(int **matrixPlay, int row, int col, int checked_value){
+bool check_col(int **matrixPlay, int row, int col, int checked_value){
 
 int i;
 for (i = 0; i< 9; i++)
@@ -49,10 +49,10 @@ for (i = 0; i< 9; i++)
 	{
 		if (matrixPlay[i][col] == checked_value)
 		{
-			return 0;
+			return false;
 		}
 	}
-	return 1;
+	return true;
 }
 }
 
@@ -65,41 +65,44 @@ for (i = 0; i< 9; i++)
  *
  */
 
-int checkBlock(int **matrixPlay, int row, int col, int checked_value) {
+bool checkBlock(int **matrixPlay, int x, int y, int checked_value) {
 	int a, b, c, d;
-	a = (row / 3) * 3;/* it tells in which block the index is. 0-2 are in block 0. 3-5 in block 2 which start at index 3 and 6-8 in block 3
+	a = (x / 3) * 3;/* it tells in which block the index is. 0-2 are in block 0. 3-5 in block 2 which start at index 3 and 6-8 in block 3
 	that start in index 6. */
-	b = (col / 3) * 3; /* the same with the col*/
+	b = (y / 3) * 3; /* the same with the col*/
 	for (c = 0; c < 3; c++)
 	{ /*  iterates over the elements in the block */
 		for (d = 0; d < 3; d++)
 		{
-			if (matrixPlay[a + c][b + d] == checked_value)
+			if ( !((a+c==x) &&(b+d==y)) )
 			{
-				return 0;
+				if (matrixPlay[a + c][b + d] == checked_value)
+				{
+					return false;
+				}
 			}
 		}
 	}
-	return 1;
+	return true;
 
 }
 /* return whether the value is valid- different from all values in the same row block and column   */
 
-bool solver_is_legalvalue(int **matrixPlay, int row, int col, int checked_value){
+bool solver_is_legalValue(int **matrixPlay, int x, int y, int checked_value){
 
 	if(checked_value==0)
 	{
 		return true;
 	}
-	if(checkBlock(matrixPlay, row, col, checked_value)==0)
+	if(checkBlock(matrixPlay, x, y, checked_value)==0)
 	{
 		return false;
 	}
-	if(check_row(matrixPlay, row, col, checked_value)==0)
+	if(check_row(matrixPlay, x, y, checked_value)==0)
 	{
 		return false;
 	}
-	if(check_col(matrixPlay, row, col, checked_value)==0)
+	if(check_col(matrixPlay, x, y, checked_value)==0)
 	{
 		return false;
 	}
@@ -109,7 +112,7 @@ bool solver_is_legalvalue(int **matrixPlay, int row, int col, int checked_value)
 /* this function receives a board in a current position and checks if there is a solution.
  * incase there is, it updates the solved board to the new solution and returns 1 */
 
-int determenistic_algo(int **matrixPlay,int **matrixSolve){
+int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 
 	int row, col, number;
 	for (row = 0; row < 9; row++)
@@ -121,16 +124,16 @@ int determenistic_algo(int **matrixPlay,int **matrixSolve){
 			{
 				for (number = 1; number< 10; number++)
 				{
-					if (solver_is_legalvalue(matrixPlay, row, col, number) == 1)
+					if (solver_is_legalValue(matrixPlay, row, col, number) == 1)
 					{
 						/* if the cell is empty and the value is legal fill the cell  */
 						matrixPlay[row][col] = number;
 						/* recursive call. check the next cell. the previous cells are not empty anymore
 						 * we put a value with the previous calls */
-						if (determenistic_algo(matrixPlay, matrixSolve) == 1)
+						if (solver_determenistic_algo(matrixPlay, matrixSolve) == 1)
 						{
 							if(row==8 && col==8){
-								memcpy(matrixSolve, matrixPlay, 82);
+								memcpy(matrixSolve, matrixPlay, 81);
 							}
 							return 1;
 						} else
@@ -147,7 +150,7 @@ int determenistic_algo(int **matrixPlay,int **matrixSolve){
 					return 0;
 				}
 			}
-			else if ((col == 8) && (row == 8) && (solver_is_legalvalue(matrixPlay, 8, 8,matrixPlay[8][8])==1))
+			else if ((col == 8) && (row == 8) && (solver_is_legalValue(matrixPlay, 8, 8,matrixPlay[8][8])==1))
 			{
 				memcpy(matrixSolve, matrixPlay, 82);
 				return 1;

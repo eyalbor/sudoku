@@ -27,7 +27,7 @@ int main ( int argc, char **argv ){
 
 		game_create(row,col,fixCell,seed);
 
-		while(game_isGameFinish()==false) {
+		while(game_isGameFinish(row,col)==false) {
 			mainAux_printBoard();
 			//TODO delete
 			printf("print command\n");
@@ -57,6 +57,7 @@ int main ( int argc, char **argv ){
 				}
 			}
 		}
+		//TO-DO printf game finish
 	}
 
 	game_destroyGame();
