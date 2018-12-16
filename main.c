@@ -21,6 +21,7 @@ int main ( int argc, char **argv ){
 	GAME:{
 		fixCell = mainAux_getNumberOfFixCells();
 		if(fixCell==-1){
+			printf("!!!!");
 			printf("Exiting...\n");
 			return 0;
 		}
