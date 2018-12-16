@@ -12,8 +12,8 @@ int main ( int argc, char **argv ){
 	int fixCell = 0;
 	int seed = 0;
 	char commandStr[1024];
-	int row = 3;
-	int col = 3;
+	int row = 9;
+	int col = 9;
 	Command command;
 
 	seed = mainAux_getSeed(argc,argv);
@@ -21,7 +21,6 @@ int main ( int argc, char **argv ){
 	GAME:{
 		fixCell = mainAux_getNumberOfFixCells();
 		if(fixCell==-1){
-			printf("!!!!");
 			printf("Exiting...\n");
 			return 0;
 		}
@@ -38,6 +37,9 @@ int main ( int argc, char **argv ){
 				if(command.func!=NONE){
 					if( command.func == EXIT){
 						mainAux_printExit();
+						//TO-DO
+						game_destroyGame();
+						exit(0);
 					}
 					else if(command.func == RESTART){
 						game_destroyGame();

@@ -13,7 +13,7 @@ int mainAux_getSeed(int argc,char** argv);
 /**
  * mainAux_getNumberOfFixCells
  * extract from the user the number of fix cell on the board
- * intput:
+ * input:
  * return:
  */
 int mainAux_getNumberOfFixCells();

@@ -42,9 +42,9 @@ void game_randomlyPickFixCells(){
 //}
 
 /*nadin- create the matrix  */
-int **createMatrix(int rows, int col) {
+int **game_createMatrix(int rows, int col) {
 	int **matrix, i;
-	matrix = calloc(rows, sizeof(int *));
+	matrix = (int**)calloc(rows, sizeof(int *));
 	if (matrix == NULL) {
 		return NULL;
 	}
@@ -68,9 +68,9 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 	//solver_randomizeBacktracking(matrixSolver,rows,cols);
 	//game_randomlyPickFixCells();
 
-	matrixSolve = createMatrix(rows,cols);
-	matrixPlay=createMatrix(rows,cols);
-	matrixfixed= createMatrix(rows, cols);
+	matrixSolve = game_createMatrix(rows,cols);
+	matrixPlay=game_createMatrix(rows,cols);
+	matrixfixed= game_createMatrix(rows, cols);
 	printBoard(matrixPlay,  matrixfixed);
 	solver_randomizeBacktracking(matrixSolve,rows,cols);
 	game_randomlyPickFixCells();
