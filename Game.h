@@ -6,6 +6,7 @@
 //	bool isFix;
 //} Cell;
 
+void	game_init();
 void 	game_create(int row, int col,int fixCell, int seed);
 void 	game_destroyGame();
 ADTErr 	game_playTurn(Command* command);

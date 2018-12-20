@@ -3,13 +3,17 @@
 #include "ADT_Error.h"
 #include "Solver.h"
 #include "Game.h"
-#include <stdlib.h>
 
-#define ROWS 9
-#define COLS 9
+#include <stdlib.h>
+#include <stdio.h>
 
 int **matrixSolve, **matrixPlay, **matrixfixed;
-int rows,cols;
+
+void	game_init(){
+	matrixSolve = NULL;
+	matrixPlay = NULL;
+	matrixfixed = NULL;
+}
 
 void game_randomlyPickFixCells(int fixCells){
 	int i, x, y;
@@ -26,13 +30,52 @@ void game_randomlyPickFixCells(int fixCells){
 	}
 }
 
+/* nadin*/
+void static rowSeparator() {
+	int i;
+	for (i = 0; i < 34; i++) {
+		printf("-");
+	}
+	printf("\n");
+}
+
+
 void game_printBoard(){
-	printBoard(matrixPlay,  matrixfixed);
+	int i,j;
+	for(i=0; i<9; i++)
+	{
+		/*every 3 rows we will print a line*/
+		if(i % 3 == 0)
+		{
+			rowSeparator();
+		}
+		for(j=0;j<9;j++)
+		{
+			/*every 3 col we will print a line*/
+			if(j % 3 == 0)
+			{
+				printf("| ");
+			}
+			if(matrixfixed[i][j]!=0)
+			{
+				printf(".%d ",matrixPlay[i][j]);
+			}
+			else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
+			{
+				printf(" %d ",matrixPlay[i][j]);
+			}
+			else
+			{
+				printf("   ");
+			}
+		}printf("|\n");
+	}
+	rowSeparator();
 }
 
 /*nadin- create the matrix  */
 int **game_createMatrix(int rows, int col) {
-	int **matrix, i;
+	int **matrix, i,j;
 	matrix = (int**)calloc(rows, sizeof(int *));
 	if (matrix == NULL) {
 		return NULL;
@@ -40,10 +83,22 @@ int **game_createMatrix(int rows, int col) {
 	for (i = 0; i < 9; i++) {
 		matrix[i] = calloc(col, sizeof(int));
 		if (matrix[i] == NULL) {
+			for(j=i-1 ; j>=0 ; j--){
+				free(matrix[j]);
+			}
 			return NULL;
 		}
 	}
 	return matrix;
+}
+
+void static destroyMatrix(int** matrix){
+	int i;
+	for (i=0;i<9;i++)
+	{
+		free(matrix[i]);
+	}
+	free(matrix);
 }
 
 /**
@@ -56,29 +111,43 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 	/*printMatrix(matrixSolver,cols,cols);*/
 	//solver_randomizeBacktracking(matrixSolver,rows,cols);
 
+	if(matrixSolve!=NULL){
+		destroyMatrix(matrixSolve);
+	}
+	if(matrixPlay!=NULL){
+		destroyMatrix(matrixPlay);
+	}
+	if(matrixfixed!=NULL){
+		destroyMatrix(matrixfixed);
+	}
+
 	matrixSolve = game_createMatrix(rows,cols);
-	matrixPlay = game_createMatrix(rows,cols);
-	matrixfixed = game_createMatrix(rows, cols);
-	solver_randomizeBacktracking(matrixSolve);
-	//solver_determenistic_algo( matrixPlay,matrixSolve);
-	//printBoard(matrixPlay,  matrixSolve);
-	//printBoard(matrixSolve,  matrix_try);
-	game_randomlyPickFixCells(fixCell);
-	//printBoard(matrixPlay,  matrixfixed);
+	if(matrixSolve!=NULL){
+		matrixPlay = game_createMatrix(rows,cols);
+		if(matrixPlay!=NULL){
+			matrixfixed = game_createMatrix(rows, cols);
+			if(matrixfixed!=NULL){
+				solver_randomizeBacktracking(matrixSolve);
+				//solver_determenistic_algo( matrixPlay,matrixSolve);
+				//printBoard(matrixPlay,  matrixSolve);
+				//printBoard(matrixSolve,  matrix_try);
+				game_randomlyPickFixCells(fixCell);
+				//printBoard(matrixPlay,  matrixfixed);
+			} else{
+				destroyMatrix(matrixPlay);
+				destroyMatrix(matrixSolve);
+			}
+		} else{
+			destroyMatrix(matrixSolve);
+		}
+	}
 }
 
 void game_destroyGame(){
-	int i;
-	for (i=0;i<9;i++){
-		free(matrixSolve[i]);
-		free(matrixPlay[i]);
-		free(matrixfixed[i]);
-	}
-	free(matrixSolve);
-	free(matrixPlay);
-	free(matrixfixed);
+	destroyMatrix(matrixSolve);
+	destroyMatrix(matrixPlay);
+	destroyMatrix(matrixfixed);
 }
-
 
 /*
  * added by nadine

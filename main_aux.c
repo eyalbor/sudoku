@@ -1,6 +1,7 @@
 #include "Bool.h"
 #include "ADT_Error.h"
-
+#include "Parcer.h"
+#include "Game.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -29,7 +30,7 @@ int mainAux_getSeed(int argc, char** argv){
  */
 int mainAux_getNumberOfFixCells(){
 	int fix = 0, scanRet;
-
+	int c;
 	printf("Please enter the number of cells to fill [0-80]:\n");
 	while(1){
 		scanRet = scanf("%d",&fix);
@@ -42,61 +43,21 @@ int mainAux_getNumberOfFixCells(){
 		}
 		printf("Error: invalid number of cells to fill (should be between 0 and 80)\n");
 	}
+	while ((c = getchar()) != '\n' && c != EOF) { }
 	return fix;
 }
 
 bool mainAux_readCommand(char* command){
-	int c;
-	while ((c = getchar()) != '\n' && c != EOF) { }
+
+//	fflush(stdin);
+
+	fseek(stdin,0,SEEK_END);
 
 	if (NULL == fgets(command,100,stdin)){
-		while ((c = getchar()) != '\n' && c != EOF) { }
+
 		return false;
 	}
-	while ((c = getchar()) != '\n' && c != EOF) { }
 	return true;
-}
-
-/* nadin*/
-void static rowSeparator() {
-	int i;
-	for (i = 0; i < 34; i++) {
-		printf("-");
-	}
-	printf("\n");
-}
-
-void printBoard(int** matrixPlay, int** matrixfixed){
-	int i,j;
-	for(i=0; i<9; i++)
-	{
-		/*every 3 rows we will print a line*/
-		if(i % 3 == 0)
-		{
-			rowSeparator();
-		}
-		for(j=0;j<9;j++)
-		{
-			/*every 3 col we will print a line*/
-			if(j % 3 == 0)
-			{
-				printf("| ");
-			}
-			if(matrixfixed[i][j]!=0)
-			{
-				printf(".%d ",matrixPlay[i][j]);
-			}
-			else if(matrixfixed[i][j]==0 && matrixPlay[i][j]!=0)
-			{
-				printf(" %d ",matrixPlay[i][j]);
-			}
-			else
-			{
-				printf("   ");
-			}
-		}printf("|\n");
-	}
-	rowSeparator();
 }
 
 void mainAux_printBoard(){

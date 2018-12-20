@@ -34,6 +34,7 @@ int solver_createlegalvalue(int**matrixSolve,int row, int col){
 			count++;
 		}
 	}
+	return count;
 }
 
 int choose_Valuefrom3Dmatrix(int count,int x, int y){
