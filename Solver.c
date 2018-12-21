@@ -3,26 +3,11 @@
 
 #include <stdio.h>
 #include <time.h>
+#include <stdlib.h>
+#include <string.h>
 
 bool valid_array_number[9][9][9] = {false};
 
-void solver_solveBoard(int** mat, int size, int** matNew){
-
-}
-
-
-int static checkIfICanPickValue(bool* valid_array_number, int size){
-	int i;
-	int count=0;
-
-	for(i=0;i<size;i++){
-		//true says that i can choose the i value
-		if(valid_array_number[i]==true){
-			count++;
-		}
-	}
-	return count;
-}
 
 int solver_createlegalvalue(int**matrixSolve,int row, int col){
 	int number,count;
@@ -71,10 +56,6 @@ void randomizeArray(int* randArr,int size){
 		index2 = rand()%9;
 		swap(randArr,index1, index2);
 	}
-//	for(i=0;i<size;i++){
-//		printf(" %d ",randArr[i]);
-//	}
-//	printf("\n");
 }
 
 
@@ -131,7 +112,7 @@ bool solver_randomizeBacktracking(int** matrixSolve){
  * this function checks if the value entered in a specific cell is a valid one. if there is the same value in the same row
  * the function returns 0 otherwise it is a legal value and the function returns 1.
  */
-bool static check_row(int **matrixPlay, int row, int col, int checked_value){
+bool check_row(int **matrixPlay, int row, int col, int checked_value){
 
 	int i;
 	for (i = 0; i< 9; i++)

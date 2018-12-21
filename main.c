@@ -28,7 +28,7 @@ int main ( int argc, char **argv ){
 			return 0;
 		}
 
-		game_create(row,col,fixCell,seed);
+		game_create(row,col,fixCell);
 
 		while(game_isGameFinish(row,col)==false) {
 			if (err==ERR_OK){
@@ -39,7 +39,6 @@ int main ( int argc, char **argv ){
 				if (err==ERR_OK){
 					if( command.func == EXIT){
 						mainAux_printExit();
-						//TO-DO
 						game_destroyGame();
 						exit(0);
 					}

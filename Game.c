@@ -31,7 +31,7 @@ void game_randomlyPickFixCells(int fixCells){
 }
 
 /* nadin*/
-void static rowSeparator() {
+void  rowSeparator() {
 	int i;
 	for (i = 0; i < 34; i++) {
 		printf("-");
@@ -84,21 +84,26 @@ int **game_createMatrix(int rows, int col) {
 		matrix[i] = calloc(col, sizeof(int));
 		if (matrix[i] == NULL) {
 			for(j=i-1 ; j>=0 ; j--){
+				matrix[j]=NULL;
 				free(matrix[j]);
 			}
+			free(matrix);
+			matrix=NULL;
 			return NULL;
 		}
 	}
 	return matrix;
 }
 
-void static destroyMatrix(int** matrix){
+void destroyMatrix(int** matrix){
 	int i;
 	for (i=0;i<9;i++)
 	{
 		free(matrix[i]);
+		matrix[i]=NULL;
 	}
 	free(matrix);
+	matrix=NULL;
 }
 
 /**
@@ -106,19 +111,19 @@ void static destroyMatrix(int** matrix){
  * use randomized backtracking to get random solve board
  * repeat fix cell H time
  */
-void game_create(int rows, int cols ,int fixCell, int seed){
-	//matrixSolver = (int *)calloc(rows * cols , sizeof(Cell));
-	/*printMatrix(matrixSolver,cols,cols);*/
-	//solver_randomizeBacktracking(matrixSolver,rows,cols);
+void game_create(int rows, int cols ,int fixCell){
 
 	if(matrixSolve!=NULL){
 		destroyMatrix(matrixSolve);
+		matrixSolve=NULL;
 	}
 	if(matrixPlay!=NULL){
 		destroyMatrix(matrixPlay);
+		matrixPlay=NULL;
 	}
 	if(matrixfixed!=NULL){
 		destroyMatrix(matrixfixed);
+		matrixfixed=NULL;
 	}
 
 	matrixSolve = game_createMatrix(rows,cols);
@@ -128,25 +133,27 @@ void game_create(int rows, int cols ,int fixCell, int seed){
 			matrixfixed = game_createMatrix(rows, cols);
 			if(matrixfixed!=NULL){
 				solver_randomizeBacktracking(matrixSolve);
-				//solver_determenistic_algo( matrixPlay,matrixSolve);
-				//printBoard(matrixPlay,  matrixSolve);
-				//printBoard(matrixSolve,  matrix_try);
 				game_randomlyPickFixCells(fixCell);
-				//printBoard(matrixPlay,  matrixfixed);
 			} else{
 				destroyMatrix(matrixPlay);
 				destroyMatrix(matrixSolve);
+				matrixSolve=NULL;
+				matrixPlay=NULL;
 			}
 		} else{
 			destroyMatrix(matrixSolve);
+			matrixSolve=NULL;
 		}
 	}
 }
 
 void game_destroyGame(){
 	destroyMatrix(matrixSolve);
+	matrixSolve = NULL;
 	destroyMatrix(matrixPlay);
+	matrixPlay=NULL;
 	destroyMatrix(matrixfixed);
+	matrixfixed=NULL;
 }
 
 /*
@@ -179,11 +186,11 @@ bool game_isGameFinish(int rows, int cols){
 /**
  * check if the cell point (x,y) is fix
  */
-bool static game_isCellFix(int x, int y){
+bool game_isCellFix(int x, int y){
 	return matrixfixed[x][y]!=0?true:false;
 }
 
-bool static game_setValue(int x, int y, int z){
+bool game_setValue(int x, int y, int z){
 	if(solver_is_legalValue(matrixPlay,x,y,z)==true){
 		matrixPlay[x][y]=z;
 	}else{
@@ -192,14 +199,14 @@ bool static game_setValue(int x, int y, int z){
 	return true;
 }
 
-int static game_getValue(int x, int y){
+int game_getValue(int x, int y){
 	return matrixSolve[x][y];
 }
 
 /**
  * Assume x, y, z is valid
  */
-ADTErr static game_set(Command* command){
+ADTErr game_set(Command* command){
 	if(game_isCellFix(command->x,command->y))
 		return CELL_FIX;
 	if(!game_setValue(command->x,command->y, command->z)){
@@ -214,7 +221,7 @@ ADTErr  game_hint(Command* command){
 	return HINT_ERR;
 }
 
-ADTErr static game_validate(){
+ADTErr game_validate(){
 	int** temp,i,j;
 	temp=game_createMatrix(9,9);
 	for(i=0; i<9; i++){
@@ -223,7 +230,6 @@ ADTErr static game_validate(){
 		}
 	}
 	if(solver_determenistic_algo(temp,matrixSolve)==true){
-		//success
 		destroyMatrix(temp);
 		return VALIDATION_PASSED;
 	}

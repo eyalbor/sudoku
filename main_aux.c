@@ -19,8 +19,8 @@ int mainAux_getSeed(int argc, char** argv){
 
 	if(argc == 2){
 		seedStr = argv[1];
-		PRINT_MSG(seedStr);
 		seed = atoi(seedStr);
+		/*printf("%d",seed);*/
 	}
 	return seed;
 }
@@ -29,8 +29,9 @@ int mainAux_getSeed(int argc, char** argv){
  * return number between 0-80. if get EOF return -1
  */
 int mainAux_getNumberOfFixCells(){
-	int fix = 0, scanRet;
-	int c;
+	int fix = 0, scanRet=0;
+	int c =0;
+
 	printf("Please enter the number of cells to fill [0-80]:\n");
 	while(1){
 		scanRet = scanf("%d",&fix);
@@ -48,8 +49,6 @@ int mainAux_getNumberOfFixCells(){
 }
 
 bool mainAux_readCommand(char* command){
-
-//	fflush(stdin);
 
 	fseek(stdin,0,SEEK_END);
 
