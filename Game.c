@@ -15,10 +15,21 @@ void	game_init(){
 	matrixfixed = NULL;
 }
 
+void game_cleanmatrix(int** matrix){
+	int i,j;
+	for(i=0; i<9; i++){
+		for (j=0;j<9;j++){
+			if (matrix[i][j]!=0){
+				matrix[i][j]=0;
+			}
+		}
+	}
+}
 
 /* fill the matrix with fixed cells.  */
 void game_randomlyPickFixCells(int fixCells){
 	int i, x, y;
+	game_cleanmatrix(matrixfixed);
 	/*   */
 	for(i=0;i<fixCells;++i){
 		while(1){
