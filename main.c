@@ -59,7 +59,7 @@ int main ( int argc, char **argv ){
 				}
 			}
 		}
-		//TO-DO printf game finish
+
 	}
 
 	game_destroyGame();

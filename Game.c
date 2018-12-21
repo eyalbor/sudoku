@@ -215,11 +215,20 @@ ADTErr  game_hint(Command* command){
 }
 
 ADTErr static game_validate(){
-	if(solver_determenistic_algo(matrixPlay,matrixSolve)==true){
+	int** temp,i,j;
+	temp=game_createMatrix(9,9);
+	for(i=0; i<9; i++){
+		for(j=0; j<9; j++){
+			temp[i][j]=matrixPlay[i][j];
+		}
+	}
+	if(solver_determenistic_algo(temp,matrixSolve)==true){
 		//success
+		destroyMatrix(temp);
 		return VALIDATION_PASSED;
 	}
-	return ERR_OK;
+	destroyMatrix(temp);
+	return VALIDATION_FAILED;
 }
 
 ADTErr game_playTurn(Command* command){
