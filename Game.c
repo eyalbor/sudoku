@@ -9,7 +9,7 @@
 
 int **matrixSolve, **matrixPlay, **matrixfixed;
 
-void	game_init(){
+void game_init(){
 	matrixSolve = NULL;
 	matrixPlay = NULL;
 	matrixfixed = NULL;
@@ -28,13 +28,8 @@ void game_cleanmatrix(int** matrix){
 
 /* fill the matrix with fixed cells.  */
 void game_randomlyPickFixCells(int fixCells){
-<<<<<<< HEAD
 	int i=0, x=0, y=0;
-=======
-	int i, x, y;
-	game_cleanmatrix(matrixfixed);
-	/*   */
->>>>>>> master
+
 	for(i=0;i<fixCells;++i){
 		while(1){
 			/* choose index of a cell randomly.  */
@@ -50,13 +45,7 @@ void game_randomlyPickFixCells(int fixCells){
 	}
 }
 
-<<<<<<< HEAD
-/* nadin*/
-void  rowSeparator() {
-=======
-
-void static rowSeparator() {
->>>>>>> master
+void rowSeparator() {
 	int i;
 	for (i = 0; i < 34; i++) {
 		printf("-");
@@ -243,13 +232,8 @@ ADTErr  game_hint(Command* command){
 	return HINT_ERR;
 }
 
-<<<<<<< HEAD
-ADTErr game_validate(){
-=======
-
 /* check if board can be solved  */
-ADTErr static game_validate(){
->>>>>>> master
+ADTErr  game_validate(){
 	int** temp,i,j;
 	/* create a new matrix and solve it without changing the current matrix  */
 	temp=game_createMatrix(9,9);

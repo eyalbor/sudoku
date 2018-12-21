@@ -1,3 +1,10 @@
+/*
+ * Game.h
+ *
+ *  Created on: Dec 11, 2018
+ *      Author: eyal & nadin
+ */
+
 #ifndef GAME_H_
 #define GAME_H_
 
@@ -12,9 +19,6 @@
  * Output: we have created 3 double pointers for matrixes.this function updates pointers of matrixes into NULL
  */
 void	game_init();
-<<<<<<< HEAD
-void 	game_create(int row, int col,int fixCell);
-=======
 
 
 /** game_create
@@ -28,12 +32,11 @@ void 	game_create(int row, int col,int fixCell);
  * 		otherwise creates 3 double sized arrays(our matrixes): matrixPlay, matrixSolve, matrixFixed.
  * 		updates matrixFixed to be a randomized legal puzzle. updates matrixPlay and matrixSolve with fixed cells.
  */
-void 	game_create(int row, int col,int fixCell, int seed);
+void 	game_create(int row, int col,int fixCell);
 
 /** game_destroyGame
  * Output: destroy all matrixes in the program and free memory.
  */
->>>>>>> master
 void 	game_destroyGame();
 
 /** game_playTurn

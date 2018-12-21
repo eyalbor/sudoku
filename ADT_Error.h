@@ -1,3 +1,10 @@
+/*
+ * ADT_Error.h
+ *
+ *  Created on: Dec 11, 2018
+ *      Author: eyal & nadin
+ */
+
 #ifndef ADTERROR_H_
 #define ADTERROR_H_
 

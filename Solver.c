@@ -8,58 +8,6 @@
 
 bool valid_array_number[9][9][9] = {false};
 
-<<<<<<< HEAD
-=======
-
-/*
-void solver_solveBoard(int** mat, int size, int** matNew){
-
-}
-*/
-
-int static checkIfICanPickValue(bool* valid_array_number, int size){
-	int i;
-	int count=0;
-
-	for(i=0;i<size;i++){
-		//true says that i can choose the i value
-		if(valid_array_number[i]==true){
-			count++;
-		}
-	}
-	return count;
-}
->>>>>>> master
-
-int solver_createlegalvalue(int**matrixSolve,int row, int col){
-	int number,count;
-	for (number = 1; number< 10; number++)
-	{
-		if(solver_is_legalValue(matrixSolve,row,col,number))
-		{
-			valid_array_number[row][col][number-1] = true;
-			count++;
-		}
-	}
-	return count;
-}
-
-int choose_Valuefrom3Dmatrix(int count,int x, int y){
-	int randNum,i;
-
-	randNum = (rand()%count)+1;
-	for(i=0;i<9;i++){
-		if(valid_array_number[x][y][i]==true)
-		{
-			randNum--;
-			if(randNum==0)
-			{
-				return i;
-			}
-		}
-	}
-	return -1;
-}
 
 void swap(int* randArr, int index1, int index2){
 	int temp = randArr[index1];
