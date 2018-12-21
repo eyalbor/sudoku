@@ -61,7 +61,31 @@ int main ( int argc, char **argv ){
 				}
 			}
 		}
-
+		if(game_isGameFinish(row,col)==true)
+		{
+				printf("puzzle solved successfully\n");
+				if(mainAux_readCommand(commandStr) == true)
+				{
+					err = parser_parseCommand(commandStr, &command);
+					while(command.func!=RESTART && command.func!=EXIT)
+					{
+						if(mainAux_readCommand(commandStr) == true)
+						{
+							err = parser_parseCommand(commandStr, &command);
+						}
+					}
+					if (command.func==EXIT)
+					{
+						mainAux_printExit();
+						game_destroyGame();
+						exit(0);
+					}else if(command.func==RESTART)
+					{
+						game_destroyGame();
+						goto GAME;
+					}
+				}
+		}
 	}
 
 	game_destroyGame();
