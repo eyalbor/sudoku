@@ -22,9 +22,15 @@
 		"HINT",
 		"PUZZLE_SOLVED",
 		"Validation passed: board is solvable",
-		"Validation failed: board is unsolvable"
+		"Validation failed: board is unsolvable",
+		"invalid command"
 
 	};
-	printf("Error:%s\n", ad[errNum]);
+	if(errNum==VALIDATION_PASSED){
+		printf("%s\n", ad[errNum]);
+	}
+	else{
+		printf("Error:%s\n", ad[errNum]);
+	}
 }
 

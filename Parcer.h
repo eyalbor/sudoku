@@ -6,8 +6,7 @@ typedef enum {
 	HINT,
 	VALIDATE = 2,
 	RESTART,
-	EXIT,
-	NONE
+	EXIT
 } FUNC;
 
 typedef struct command_t{
@@ -20,8 +19,8 @@ typedef struct command_t{
 /** parser_parseCommand
  * Input: chat* str - command string,
  * 		  Commant Ptr to be filled inside the function
- * Output:
+ * Output: ADTErr ERR_OK or INVALID_COMMAND
  */
-void parser_parseCommand(char* str, Command* retCommand);
+ADTErr parser_parseCommand(char* str, Command* retCommand);
 
 #endif

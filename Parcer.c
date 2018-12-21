@@ -17,38 +17,50 @@ void static strToLower(char* str){
 	}
 }
 
-void parser_parseCommand(char* str, Command* retCommand){
+ADTErr parser_parseCommand(char* str, Command* retCommand){
 	char* tokens;
 	tokens = strtok(str," ");
 	if(tokens != NULL){
 		strToLower(tokens);
 		if(strcmp(tokens,"set")==0)
-		{
-			/* y is row
-			 * x is column */
+		{/* y is row , x is column */
 			(*retCommand).func = SET;
 			tokens = strtok(NULL," ");
-			(*retCommand).y = atoi(tokens)-1;
-			tokens = strtok(NULL," ");
-			(*retCommand).x = atoi(tokens)-1;
-			tokens = strtok(NULL," ");
-			(*retCommand).z = atoi(tokens);
+			if(tokens!=NULL){
+				(*retCommand).y = atoi(tokens)-1;
+				tokens = strtok(NULL," ");
+				if(tokens!=NULL){
+					(*retCommand).x = atoi(tokens)-1;
+					tokens = strtok(NULL," ");
+					if(tokens!=NULL){
+						(*retCommand).z = atoi(tokens);
+						return ERR_OK;
+					}
+				}
+			}
 		} else if(strcmp(tokens,"hint")==0){
 			(*retCommand).func = HINT;
 			tokens = strtok(NULL," ");
-			(*retCommand).y = atoi(tokens)-1;
-			tokens = strtok(NULL," ");
-			(*retCommand).x = atoi(tokens)-1;
+			if(tokens!=NULL){
+				(*retCommand).y = atoi(tokens)-1;
+				tokens = strtok(NULL," ");
+				if(tokens!=NULL){
+					(*retCommand).x = atoi(tokens)-1;
+					return ERR_OK;
+				}
+			}
 		} else if(strcmp(tokens,"validate\n")==0){
 			(*retCommand).func = VALIDATE;
+			return ERR_OK;
 		} else if(strcmp(tokens,"restart\n")==0){
 			(*retCommand).func = RESTART;
+			return ERR_OK;
 		} else if(strcmp(tokens,"exit\n")==0){
 			(*retCommand).func = EXIT;
+			return ERR_OK;
 		}
-	}else{
-		(*retCommand).func = NONE;
 	}
+	return INVALID_COMMAND;
 }
 
 

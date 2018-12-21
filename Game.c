@@ -1,6 +1,6 @@
 #include "Bool.h"
-#include "Parcer.h"
 #include "ADT_Error.h"
+#include "Parcer.h"
 #include "Solver.h"
 #include "Game.h"
 
@@ -16,7 +16,7 @@ void	game_init(){
 }
 
 void game_randomlyPickFixCells(int fixCells){
-	int i, x, y;
+	int i=0, x=0, y=0;
 	for(i=0;i<fixCells;++i){
 		while(1){
 			x = rand()%9;

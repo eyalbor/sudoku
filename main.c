@@ -31,12 +31,12 @@ int main ( int argc, char **argv ){
 		game_create(row,col,fixCell,seed);
 
 		while(game_isGameFinish(row,col)==false) {
-			if (err!=HINT_ERR){
+			if (err==ERR_OK){
 				mainAux_printBoard();
 			}
 			if(mainAux_readCommand(commandStr) == true){
-				parser_parseCommand(commandStr, &command);
-				if(command.func!=NONE){
+				err = parser_parseCommand(commandStr, &command);
+				if (err==ERR_OK){
 					if( command.func == EXIT){
 						mainAux_printExit();
 						//TO-DO
@@ -56,6 +56,9 @@ int main ( int argc, char **argv ){
 							mainAux_printError(err);
 						}
 					}
+				}
+				else{
+					mainAux_printError(INVALID_COMMAND);
 				}
 			}
 		}
