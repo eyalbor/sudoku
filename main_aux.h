@@ -12,9 +12,8 @@ int mainAux_getSeed(int argc,char** argv);
 
 /**
  * mainAux_getNumberOfFixCells
- * extract from the user the number of fix cell on the board
- * input:
- * return:
+ * extract from the user the number of fixed cells on the board
+ * return: number of fixed cells. -1 if EOF error
  */
 int mainAux_getNumberOfFixCells();
 
@@ -33,16 +32,21 @@ bool mainAux_readCommand(char* command);
 void mainAux_printBoard();
 
 /** mainAux_printExit
- * Input:
- * Output:
+ * prints exiting
  */
 void mainAux_printExit();
 
 /** main_Aux_printHint
  * Input: int z : value of cell
- * Output:
+ * Output: z. value of cell
  */
 void main_Aux_printHint(int z);
+
+/*mainAux_printError
+ * Input: ADTERR error. value of error.
+ * Output: HandleErr function with the input error. it prints the error.
+ */
+
 
 void mainAux_printError(ADTErr err);
 
