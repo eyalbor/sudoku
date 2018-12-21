@@ -8,6 +8,28 @@
 
 bool valid_array_number[9][9][9] = {false};
 
+<<<<<<< HEAD
+=======
+
+/*
+void solver_solveBoard(int** mat, int size, int** matNew){
+
+}
+*/
+
+int static checkIfICanPickValue(bool* valid_array_number, int size){
+	int i;
+	int count=0;
+
+	for(i=0;i<size;i++){
+		//true says that i can choose the i value
+		if(valid_array_number[i]==true){
+			count++;
+		}
+	}
+	return count;
+}
+>>>>>>> master
 
 int solver_createlegalvalue(int**matrixSolve,int row, int col){
 	int number,count;
@@ -45,7 +67,7 @@ void swap(int* randArr, int index1, int index2){
 	randArr[index2] = temp;
 }
 
-
+/*  get an array with values from 1-9 and randomly swap all values. */
 void randomizeArray(int* randArr,int size){
 	int i, index1, index2;
 	for(i=0;i<size;i++){
@@ -107,7 +129,7 @@ bool solver_randomizeBacktracking(int** matrixSolve){
 }
 
 
-/* added by nadin*/
+
 /*
  * this function checks if the value entered in a specific cell is a valid one. if there is the same value in the same row
  * the function returns 0 otherwise it is a legal value and the function returns 1.
@@ -127,8 +149,8 @@ bool check_row(int **matrixPlay, int row, int col, int checked_value){
 	}
 	return true;
 }
-/* added by nadin
- *
+
+ /*
  * this function checks if the value entered in a specific cell is a valid one. if there is the same value in the same colomn
  * the function returns 0 otherwise it is a legal value and the function returns 1.
  *
@@ -149,7 +171,6 @@ bool check_col(int **matrixPlay, int row, int col, int checked_value){
 }
 
 /*
- * added by nadin
  * checks if the number exists in the same block. this function divides the matrix into 9 blocks.
  * first it checks for which block the index belongs and after it iterates over the 9 elements.
  * it returns 1 if value is valid
@@ -201,10 +222,19 @@ bool solver_is_legalValue(int **matrixPlay, int x, int y, int checked_value){
 	return true;
 }
 
+
+
+void copy_boards(int** old, int**new,int size){
+	int i;
+	for(i=0; i<size;i++){
+		memcpy(new[i], old[i],size*size);
+	}
+}
+
 /* this function receives a board in a current position and checks if there is a solution.
  * incase there is, it updates the solved board to the new solution and returns 1 */
 
-int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
+bool solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 
 	int row, col, number;
 	for (row = 0; row < 9; row++)
@@ -225,9 +255,9 @@ int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 						if (solver_determenistic_algo(matrixPlay, matrixSolve) == 1)
 						{
 							if(row==8 && col==8){
-								memcpy(matrixSolve, matrixPlay, 81);
+								copy_boards(matrixSolve,matrixPlay,9);
 							}
-							return 1;
+							return true;
 						}
 						else
 						/* if the call return 0 delete the element and continue to check the next number*/
@@ -240,13 +270,13 @@ int solver_determenistic_algo(int **matrixPlay,int **matrixSolve){
 				if (number == 10)
 				{
 					matrixPlay[row][col] = 0;
-					return 0;
+					return false;
 				}
 			}
 			else if ((col == 8) && (row == 8) && (solver_is_legalValue(matrixPlay, 8, 8,matrixPlay[8][8])==1))
 			{
-				memcpy(matrixSolve, matrixPlay, 82);
-				return 1;
+				copy_boards(matrixSolve,matrixPlay,9);
+				return true;
 			}
 		}
 	}

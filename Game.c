@@ -15,12 +15,32 @@ void	game_init(){
 	matrixfixed = NULL;
 }
 
+void game_cleanmatrix(int** matrix){
+	int i,j;
+	for(i=0; i<9; i++){
+		for (j=0;j<9;j++){
+			if (matrix[i][j]!=0){
+				matrix[i][j]=0;
+			}
+		}
+	}
+}
+
+/* fill the matrix with fixed cells.  */
 void game_randomlyPickFixCells(int fixCells){
+<<<<<<< HEAD
 	int i=0, x=0, y=0;
+=======
+	int i, x, y;
+	game_cleanmatrix(matrixfixed);
+	/*   */
+>>>>>>> master
 	for(i=0;i<fixCells;++i){
 		while(1){
+			/* choose index of a cell randomly.  */
 			x = rand()%9;
 			y = rand()%9;
+			/* if chosen cell is not yet fixed apdate. */
 			if(matrixPlay[x][y]==0){
 				matrixPlay[x][y]=matrixSolve[x][y];
 				matrixfixed[x][y]=matrixSolve[x][y];
@@ -30,8 +50,13 @@ void game_randomlyPickFixCells(int fixCells){
 	}
 }
 
+<<<<<<< HEAD
 /* nadin*/
 void  rowSeparator() {
+=======
+
+void static rowSeparator() {
+>>>>>>> master
 	int i;
 	for (i = 0; i < 34; i++) {
 		printf("-");
@@ -73,7 +98,6 @@ void game_printBoard(){
 	rowSeparator();
 }
 
-/*nadin- create the matrix  */
 int **game_createMatrix(int rows, int col) {
 	int **matrix, i,j;
 	matrix = (int**)calloc(rows, sizeof(int *));
@@ -108,8 +132,8 @@ void destroyMatrix(int** matrix){
 
 /**
  * create empty board
- * use randomized backtracking to get random solve board
- * repeat fix cell H time
+ * use randomized backtracking to get random solved board
+ * repeat fix cell H time to update the board with fixed values.
  */
 void game_create(int rows, int cols ,int fixCell){
 
@@ -146,7 +170,6 @@ void game_create(int rows, int cols ,int fixCell){
 		}
 	}
 }
-
 void game_destroyGame(){
 	destroyMatrix(matrixSolve);
 	matrixSolve = NULL;
@@ -157,7 +180,6 @@ void game_destroyGame(){
 }
 
 /*
- * added by nadine
  * checks if board is full
  * the function iterates over the matrix and check:
  * if not all cells are filled- it means the game is unfinished.
@@ -184,7 +206,7 @@ bool game_isGameFinish(int rows, int cols){
 }
 
 /**
- * check if the cell point (x,y) is fix
+ * check if the cell point (x,y) is fixed
  */
 bool game_isCellFix(int x, int y){
 	return matrixfixed[x][y]!=0?true:false;
@@ -221,8 +243,15 @@ ADTErr  game_hint(Command* command){
 	return HINT_ERR;
 }
 
+<<<<<<< HEAD
 ADTErr game_validate(){
+=======
+
+/* check if board can be solved  */
+ADTErr static game_validate(){
+>>>>>>> master
 	int** temp,i,j;
+	/* create a new matrix and solve it without changing the current matrix  */
 	temp=game_createMatrix(9,9);
 	for(i=0; i<9; i++){
 		for(j=0; j<9; j++){
@@ -237,6 +266,8 @@ ADTErr game_validate(){
 	return VALIDATION_FAILED;
 }
 
+
+/*  get command from user and play */
 ADTErr game_playTurn(Command* command){
 	ADTErr ret = ERR_OK;
 	FUNC func = command->func;
