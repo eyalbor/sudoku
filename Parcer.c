@@ -34,7 +34,7 @@ bool isNumber(char* input){
 
 ADTErr parser_parseCommand(char* str, Command* retCommand){
 	char* tokens;
-	char delimit[]=" \t\r\v\f\n";
+	char delimit[]=" \t\r\v\f";
 
 	tokens = strtok(str,delimit);
 	if(tokens != NULL){

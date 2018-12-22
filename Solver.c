@@ -6,7 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-bool valid_array_number[9][9][9] = {false};
+/*bool valid_array_number[9][9][9] = {false};*/
 
 
 void swap(int* randArr, int index1, int index2){
