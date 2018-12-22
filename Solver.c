@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+/* last one */
 /*bool valid_array_number[9][9][9] = {false};*/
 
 
@@ -14,20 +15,6 @@ void swap(int* randArr, int index1, int index2){
 	randArr[index1] = randArr[index2];
 	randArr[index2] = temp;
 }
-
-/*  get an array with values from 1-9 and randomly swap all values. */
-void randomizeArray(int* randArr,int size){
-	int i, index1, index2;
-	for(i=0;i<size;i++){
-		randArr[i]=i+1;
-	}
-	for(i=0;i<100;i++){
-		index1 = rand()%9;
-		index2 = rand()%9;
-		swap(randArr,index1, index2);
-	}
-}
-
 
 bool solver_randomizeBacktracking(int** matrixSolve){
 	int randArr[9]={0};
@@ -45,13 +32,28 @@ bool solver_randomizeBacktracking(int** matrixSolve){
 						}
 
 					}
+					while (countof_Legalvalues > 1) { /*randomly picking and recursively calling the function.
+						we have several options and we want to check if one of them is legal solution*/
 
-					if (countof_Legalvalues == 0)
-					{ /*all values failed for this cell.*/
-						matrixSolve[i][j]=0;
-						return false; /* no value remain is a valid one so no  */
-					}
-					else if (countof_Legalvalues == 1)
+							randomized_index = rand() % countof_Legalvalues;
+							/* as the array with the legal indexes is filled from the first cell it ensures that the size is the
+							 * count of legal values and the array is empty from the end until 9 minus count of legal values.
+							 * choose randomly an index from legal values  */
+							matrixSolve[i][j] = randArr[randomized_index];
+							for (n=randomized_index; n<countof_Legalvalues;n++){
+								swap(randArr,n,n+1);
+							}
+							countof_Legalvalues--; /*now we have one less valid value.*/
+							if (solver_randomizeBacktracking(matrixSolve) == 1)
+							{
+								return true;
+							} else
+							{
+								matrixSolve[i][j] = 0;/*delete the value and try again recursivly to check the other options  */
+							}
+						}
+
+					 if (countof_Legalvalues == 1)
 					{ /*no need for choosing a value in randomized way as only one is remain.*/
 						matrixSolve[i][j] = randArr[0];
 						countof_Legalvalues=0;
@@ -63,26 +65,12 @@ bool solver_randomizeBacktracking(int** matrixSolve){
 
 							}
 					}
-					while (countof_Legalvalues > 1) { /*randomly picking and recursively calling the function.
-					we have several options and we want to check if one of them is legal solution*/
-
-						randomized_index = rand() % countof_Legalvalues;
-						/* as the array with the legal indexes is filled from the first cell it ensures that the size is the
-						 * count of legal values and the array is empty from the end until 9 minus count of legal values.
-						 * choose randomly an index from legal values  */
-						matrixSolve[i][j] = randArr[randomized_index];
-						for (n=randomized_index; n<countof_Legalvalues;n++){
-							swap(randArr,n,n+1);
-						}
-						countof_Legalvalues--; /*now we have one less valid value.*/
-						if (solver_randomizeBacktracking(matrixSolve) == 1)
-						{
-							return true;
-						} else
-						{
-							matrixSolve[i][j] = 0;/*delete the value and try again recursivly to check the other options  */
-						}
+					if (countof_Legalvalues == 0)
+					{ /*all values failed for this cell.*/
+						matrixSolve[i][j]=0;
+						return false; /* no value remain is a valid one so no  */
 					}
+
 
 				} else if ((i == 8) && (j == 8)&& (solver_is_legalValue(matrixSolve, 8, 8, matrixSolve[i][j]) == 1)) {
 
