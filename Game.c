@@ -32,9 +32,10 @@ void game_randomlyPickFixCells(int fixCells){
 
 	for(i=0;i<fixCells;++i){
 		while(1){
-			/* choose index of a cell randomly.  */
-			x = rand()%9;
+			/* choose index of a cell randomly.
+			 * there was an comment on moodle that first we need to randomaize the column and than the row*/
 			y = rand()%9;
+			x = rand()%9;
 			/* if chosen cell is not yet fixed apdate. */
 			if(matrixPlay[x][y]==0){
 				matrixPlay[x][y]=matrixSolve[x][y];
