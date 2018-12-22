@@ -30,52 +30,68 @@ void randomizeArray(int* randArr,int size){
 
 
 bool solver_randomizeBacktracking(int** matrixSolve){
-	int randArr[9];
-	int row, col, number;
-	randomizeArray(randArr, 9);
-
-	for (row = 0; row < 9; row++)
-	{
-		for (col = 0; col < 9; col++)
-		{
-			/* if cell is empty check if it can be filled*/
-			if (matrixSolve[row][col] == 0)
-			{
-				for (number = 0; number< 9; number++)
+	int randArr[9]={0};
+	int i, j, value,n, countof_Legalvalues = 0, randomized_index;
+		for (i = 0; i < 9; i++) {
+			for (j = 0; j < 9; j++) {
+				if (matrixSolve[i][j] == 0)
 				{
-					if (solver_is_legalValue(matrixSolve, row, col, randArr[number]) == 1)
-					{
-						/* if the cell is empty and the value is legal fill the cell  */
-						matrixSolve[row][col] = randArr[number];
-						/* recursive call. check the next cell. the previous cells are not empty anymore
-						 * we put a value with the previous calls */
+					for (value = 1; value < 10; value++)
+					{ /*filling the array with legal values.*/
+						if (solver_is_legalValue(matrixSolve, i, j, value) == 1)
+						{
+							randArr[countof_Legalvalues] = value;
+							countof_Legalvalues++;
+						}
+
+					}
+
+					if (countof_Legalvalues == 0)
+					{ /*all values failed for this cell.*/
+						matrixSolve[i][j]=0;
+						return false; /* no value remain is a valid one so no  */
+					}
+					else if (countof_Legalvalues == 1)
+					{ /*no need for choosing a value in randomized way as only one is remain.*/
+						matrixSolve[i][j] = randArr[0];
+						countof_Legalvalues=0;
+						if (solver_randomizeBacktracking(matrixSolve) == 1)
+						{/* after putting the remained value check if matrix can be solved */
+							return true;
+						}else{
+							matrixSolve[i][j]=0;
+
+							}
+					}
+					while (countof_Legalvalues > 1) { /*randomly picking and recursively calling the function.
+					we have several options and we want to check if one of them is legal solution*/
+
+						randomized_index = rand() % countof_Legalvalues;
+						/* as the array with the legal indexes is filled from the first cell it ensures that the size is the
+						 * count of legal values and the array is empty from the end until 9 minus count of legal values.
+						 * choose randomly an index from legal values  */
+						matrixSolve[i][j] = randArr[randomized_index];
+						for (n=randomized_index; n<countof_Legalvalues;n++){
+							swap(randArr,n,n+1);
+						}
+						countof_Legalvalues--; /*now we have one less valid value.*/
 						if (solver_randomizeBacktracking(matrixSolve) == 1)
 						{
 							return true;
-						}
-						else
-						/* if the call return 0 delete the element and continue to check the next number*/
+						} else
 						{
-							matrixSolve[row][col] = 0;
+							matrixSolve[i][j] = 0;/*delete the value and try again recursivly to check the other options  */
 						}
 					}
+
+				} else if ((i == 8) && (j == 8)&& (solver_is_legalValue(matrixSolve, 8, 8, matrixSolve[i][j]) == 1)) {
+
+					return true;
 				}
-				/*  if no number is legal then delete the cell */
-				if (number == 9)
-				{
-					matrixSolve[row][col] = 0;
-					return false;
-				}
-			}
-			else if ((col == 8) && (row == 8) && (solver_is_legalValue(matrixSolve, 8, 8,matrixSolve[8][8])==1))
-			{
-				return true;
 			}
 		}
-	}
 	return false;
 }
-
 
 
 /*

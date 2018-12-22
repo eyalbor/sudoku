@@ -19,7 +19,9 @@ void strToLower(char* str){
 
 bool isNumber(char* input){
 	int i;
-	size_t ln = strlen(input) - 1;
+	int ln;
+
+	ln = strlen(input) - 1;
 	/* Ensure that input is a number */
 	for(i = 0; i < ln; i++){
 	    if( !isdigit(input[i]) ){
