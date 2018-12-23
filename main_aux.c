@@ -18,9 +18,14 @@ int mainAux_getSeed(int argc, char** argv){
 	char* seedStr = NULL;
 
 	if(argc == 2){
-		seedStr = argv[1];
-		seed = atoi(seedStr);
-		/*printf("%d",seed);*/
+		if(isNumber(argv[1])){
+			seedStr = argv[1];
+			seed = atoi(seedStr);
+			/*printf("%d",seed);*/
+		}
+		else{
+			return -1;
+		}
 	}
 	return seed;
 }

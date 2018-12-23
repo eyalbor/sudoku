@@ -13,7 +13,7 @@
  * input:
  * 		int argc - number of string in argv
  * 		int argv - array of string
- * 	return: the seed for the next randomize functions
+ * 	return: the seed for the next randomize functions, if not valid seed return -1
  */
 int mainAux_getSeed(int argc,char** argv);
 

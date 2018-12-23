@@ -30,4 +30,11 @@ typedef struct command_t{
  */
 ADTErr parser_parseCommand(char* str, Command* retCommand);
 
+/**
+ * isNumber
+ * Input: char* str
+ * Output: true if the str is number else false
+ */
+bool isNumber(char* str);
+
 #endif

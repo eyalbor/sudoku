@@ -19,6 +19,11 @@ int main ( int argc, char **argv ){
 	Command command;
 
 	seed = mainAux_getSeed(argc,argv);
+	if(seed==-1){
+		printf("Error: not a number\n");
+		printf("Exiting...\n");
+		return 0;
+	}
 	srand(seed);
 
 	GAME:{

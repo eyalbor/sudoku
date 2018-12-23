@@ -179,7 +179,7 @@ bool solver_is_legalValue(int **matrixPlay, int x, int y, int checked_value){
 void copy_boards(int** old, int**new,int size){
 	int i;
 	for(i=0; i<size;i++){
-		memcpy(new[i], old[i],size*size);
+		memcpy(new[i], old[i],size);
 	}
 }
 
