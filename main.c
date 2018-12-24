@@ -10,7 +10,7 @@
 
 int main ( int argc, char **argv ){
 
-	ADTErr err;
+	ADTErr err=ERR_OK;
 	int fixCell = 0;
 	int seed = 0;
 	char commandStr[1024];
