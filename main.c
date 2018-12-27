@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <time.h>
 
+/* main function can receive Input of integer that represent the seed for the rand variable  */
 int main ( int argc, char **argv ){
 
 	ADTErr err=ERR_OK;

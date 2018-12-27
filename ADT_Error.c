@@ -30,7 +30,7 @@
 		printf("%s\n", ad[errNum]);
 	}
 	else{
-		printf("Error:%s\n", ad[errNum]);
+		printf("Error: %s\n", ad[errNum]);
 	}
 }
 

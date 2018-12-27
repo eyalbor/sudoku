@@ -34,7 +34,7 @@ bool isNumber(char* input){
 
 ADTErr parser_parseCommand(char* str, Command* retCommand){
 	char* tokens;
-	char delimit[]=" \t\r\v\f";
+	char delimit[]=" \t\r\v\f\n";
 
 	tokens = strtok(str,delimit);
 	if(tokens != NULL){
@@ -53,31 +53,31 @@ ADTErr parser_parseCommand(char* str, Command* retCommand){
 					tokens = strtok(NULL,delimit);
 					if(tokens!=NULL){
 						if(isNumber(tokens)==false) {return INVALID_COMMAND;}
-								;}
-						(*retCommand).z = atoi(tokens);
-						return ERR_OK;
+							(*retCommand).z = atoi(tokens);
+							return ERR_OK;
+						}
 					}
 				}
 			} else if(strcmp(tokens,"hint")==0){
 				(*retCommand).func = HINT;
 				tokens = strtok(NULL,delimit);
 				if(tokens!=NULL){
-					if(isNumber(tokens)==false) {return ERR_OK;}
+					if(isNumber(tokens)==false) {return INVALID_COMMAND;}
 					(*retCommand).y = atoi(tokens)-1;
 					tokens = strtok(NULL,delimit);
 					if(tokens!=NULL){
-						if(isNumber(tokens)==false) {return ERR_OK;}
+						if(isNumber(tokens)==false) {return INVALID_COMMAND;}
 						(*retCommand).x = atoi(tokens)-1;
 						return ERR_OK;
 					}
 				}
-			} else if(strcmp(tokens,"validate\n")==0){
+			} else if(strcmp(tokens,"validate")==0){
 				(*retCommand).func = VALIDATE;
 				return ERR_OK;
-			} else if(strcmp(tokens,"restart\n")==0){
+			} else if(strcmp(tokens,"restart")==0){
 				(*retCommand).func = RESTART;
 				return ERR_OK;
-			} else if(strcmp(tokens,"exit\n")==0){
+			} else if(strcmp(tokens,"exit")==0){
 				(*retCommand).func = EXIT;
 				return ERR_OK;
 			}
